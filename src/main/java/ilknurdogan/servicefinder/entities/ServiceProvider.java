@@ -1,4 +1,4 @@
-package ilknurdogan.servicefinder.entity;
+package ilknurdogan.servicefinder.entities;
 
 
 import jakarta.persistence.*;
@@ -14,26 +14,26 @@ import lombok.EqualsAndHashCode;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class ServiceProvider extends User{
 
-    @Column(name = "serviceType")
+    @Column
     @NotBlank
     private String serviceType;
 
-    @Column(name = "about")
+    @Column
     @NotBlank
     private String about;
 
-    @Column(name = "city")
+    @Column
     @NotBlank
     private String city;
 
-    @Column(name = "district")
+    @Column
     @NotBlank
     private String district;
 
-    @Column(name = "averageScore")
+    @Column
     private int averageScore = 0;
 
-    @Column(name = "category")
+    @Column
     @NotBlank
     private String category;
 

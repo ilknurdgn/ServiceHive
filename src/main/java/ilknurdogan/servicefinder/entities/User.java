@@ -1,4 +1,4 @@
-package ilknurdogan.servicefinder.entity;
+package ilknurdogan.servicefinder.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -15,22 +15,20 @@ public abstract class User {
     private Long id;
 
     @Email
-    @Column(name = "email", unique = true)
+    @Column(unique = true)
     @NotBlank
     private String email;
 
-    @Column(name = "password")
+    @Column
     @NotBlank
     private String password;
 
-    @Column(name = "phoneNumber")
+    @Column
     private String phoneNumber;
 
-    @Column(name = "profileImgUrl")
+    @Column
     @NotBlank
     private String profileImgUrl;
-
-
 
 
 }

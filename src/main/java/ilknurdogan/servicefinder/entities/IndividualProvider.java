@@ -1,4 +1,4 @@
-package ilknurdogan.servicefinder.entity;
+package ilknurdogan.servicefinder.entities;
 
 
 import jakarta.persistence.*;
@@ -11,15 +11,15 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class IndividualProvider extends ServiceProvider{
 
-    @Column(name = "firstName")
+    @Column
     @NotBlank
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column
     @NotBlank
     private String lastName;
 
-    @Column(name = "identityNumber")
+    @Column
     @NotBlank
     private String identityNumber;
 

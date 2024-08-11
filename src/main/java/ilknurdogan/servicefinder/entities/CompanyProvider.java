@@ -1,4 +1,4 @@
-package ilknurdogan.servicefinder.entity;
+package ilknurdogan.servicefinder.entities;
 
 
 import jakarta.persistence.*;
@@ -11,11 +11,11 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class CompanyProvider extends ServiceProvider{
 
-    @Column(name = "companyName")
+    @Column
     @NotBlank
     private String companyName ;
 
-    @Column(name = "companyNumber")
+    @Column
     @NotBlank
     private String companyNumber;
 }
