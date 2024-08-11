@@ -14,9 +14,13 @@ public class IndividualProviderService {
     private final ModelMapper modelMapper;
     private final IndividualProviderRepository individualProviderRepository;
 
-    public boolean createIndividualProvider(IndividualProviderCreateDto individualProviderCreateDto) {
-        IndividualProvider individualProvider =modelMapper.map(individualProviderCreateDto, IndividualProvider.class);
-        individualProviderRepository.save(individualProvider);
-        return true;
+    public void createIndividualProvider(IndividualProviderCreateDto individualProviderCreateDto) {
+        try{
+            IndividualProvider individualProvider = modelMapper.map(individualProviderCreateDto, IndividualProvider.class);
+            individualProviderRepository.save(individualProvider);
+        }catch(Exception e){
+            throw new RuntimeException("Failed to create service provider", e);
+        }
+
     }
 }

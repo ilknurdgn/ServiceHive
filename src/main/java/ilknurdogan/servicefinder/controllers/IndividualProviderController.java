@@ -18,8 +18,13 @@ public class IndividualProviderController {
     private final IndividualProviderService individualProviderService;
 
     @PostMapping("/create-individual-provider")
-    public ResponseEntity<Boolean> createIndividualProvider(@RequestBody IndividualProviderCreateDto individualProviderCreateDto){
-        Boolean createIndividualProvider = individualProviderService.createIndividualProvider(individualProviderCreateDto);
-        return new ResponseEntity<>(createIndividualProvider, HttpStatus.CREATED);
+    public ResponseEntity<String> createIndividualProvider(@RequestBody IndividualProviderCreateDto individualProviderCreateDto){
+        try {
+            individualProviderService.createIndividualProvider(individualProviderCreateDto);
+            return new ResponseEntity<>("Service provider successfully created", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
+
 }
