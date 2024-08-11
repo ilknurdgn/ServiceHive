@@ -1,8 +1,7 @@
 package ilknurdogan.servicefinder.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,7 +9,9 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@MappedSuperclass
+@Entity
+@Table(name = "ServiceProvider")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class ServiceProvider extends User{
 
     @Column(name = "serviceType")
