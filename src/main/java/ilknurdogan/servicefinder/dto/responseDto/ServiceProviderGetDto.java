@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ServiceProviderGetAllDto {
+public class ServiceProviderGetDto {
     private Long id;
 
     private String email;
