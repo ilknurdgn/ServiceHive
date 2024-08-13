@@ -23,9 +23,8 @@ public class ServiceProviderService {
 
     //GET ALL
     public List<ServiceProviderGetDto> getAll() {
-        try {
+        try{
             List<ServiceProvider> serviceProviders = serviceProviderRepository.findAll();
-
             return  serviceProviders.stream()
                     .map(provider -> modelMapper.map(provider, ServiceProviderGetDto.class))
                     .collect(Collectors.toList());
