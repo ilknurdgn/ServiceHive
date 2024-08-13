@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -36,6 +38,9 @@ public abstract class ServiceProvider extends User{
     @Column
     @NotBlank
     private String category;
+
+    @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Project> projectList;
 
 
 }
