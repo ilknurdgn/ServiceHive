@@ -28,6 +28,12 @@ public class ServiceProviderController {
         return new ResponseEntity<>(provider, HttpStatus.OK);
     }
 
+    @GetMapping("/getFilterByCategory")
+    public ResponseEntity<List<ServiceProviderGetDto>> getServiceProviderFilterByCategory(@RequestParam String category){
+        List<ServiceProviderGetDto> filteredProviders = serviceProviderService.getServiceProviderFilterById(category);
+        return ResponseEntity.ok(filteredProviders);
+    }
+
     @DeleteMapping("/deleteById")
     public ResponseEntity<String> deleteServiceProviderById(@RequestParam Long id){
         serviceProviderService.deleteServiceProviderById(id);

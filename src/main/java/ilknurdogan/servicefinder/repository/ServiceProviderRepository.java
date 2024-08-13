@@ -1,5 +1,6 @@
 package ilknurdogan.servicefinder.repository;
 
+import ilknurdogan.servicefinder.dto.responseDto.ServiceProviderGetDto;
 import ilknurdogan.servicefinder.entities.ServiceProvider;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -15,4 +16,6 @@ public interface ServiceProviderRepository extends JpaRepository<ServiceProvider
 
     @Override
     void deleteById(Long id);
+
+    List<ServiceProvider> getByCategory(final String category);
 }

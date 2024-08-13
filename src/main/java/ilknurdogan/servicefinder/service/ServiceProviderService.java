@@ -45,6 +45,19 @@ public class ServiceProviderService {
 
     }
 
+    //GET FILTER BY ID
+    public List<ServiceProviderGetDto> getServiceProviderFilterById(String category){
+        try{
+            List<ServiceProvider> filteredServiceProviders = serviceProviderRepository.getByCategory(category);
+            return filteredServiceProviders.stream()
+                    .map(provider -> modelMapper.map(provider, ServiceProviderGetDto.class))
+                    .collect(Collectors.toList());
+        }catch (Exception e){
+            throw new InternalServerErrorException("Service provider could not be fetched.");
+        }
+
+    }
+
 
     //DELETE BY ID
     public void deleteServiceProviderById(Long id){
@@ -57,7 +70,6 @@ public class ServiceProviderService {
         }else{
             throw new NotFoundException("Service provider not found");
         }
-
-
     }
+
 }
