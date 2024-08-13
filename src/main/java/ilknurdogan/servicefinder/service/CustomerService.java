@@ -4,6 +4,7 @@ import ilknurdogan.servicefinder.dto.requestDto.CustomerCreateDto;
 import ilknurdogan.servicefinder.dto.responseDto.CustomerGetDto;
 import ilknurdogan.servicefinder.entities.Customer;
 import ilknurdogan.servicefinder.exception.InternalServerErrorException;
+import ilknurdogan.servicefinder.exception.NotFoundException;
 import ilknurdogan.servicefinder.exception.UniqueEmailException;
 import ilknurdogan.servicefinder.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,7 +22,7 @@ public class CustomerService {
     private final ModelMapper modelMapper;
     private final CustomerRepository customerRepository;
 
-    //CREATE
+    // CREATE
     public void createCustomer(CustomerCreateDto customerCreateDto) {
 
         if(customerRepository.existsByEmail(customerCreateDto.getEmail())){
@@ -46,5 +48,18 @@ public class CustomerService {
             throw new InternalServerErrorException("Customer could not be fetched.");
         }
 
+    }
+
+    // GET BY ID
+    public CustomerGetDto getCustomerById(Long id) {
+        try {
+            Optional<Customer> optionalCustomer = customerRepository.findById(id);
+            if(optionalCustomer.isEmpty()){
+                throw new NotFoundException("Customer not found!");
+            }
+            return modelMapper.map(optionalCustomer, CustomerGetDto.class);
+        }catch (Exception e){
+            throw new InternalServerErrorException("Customer could not be fetched.");
+        }
     }
 }

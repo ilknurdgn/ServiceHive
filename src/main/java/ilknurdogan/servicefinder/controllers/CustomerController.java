@@ -9,10 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,7 +30,14 @@ public class CustomerController {
     //GET ALL
     @GetMapping("/getAll")
     public ResponseEntity<List<CustomerGetDto>> getAllCustomer(){
-        List<CustomerGetDto> customer = customerService.getAllCustomer();
+        List<CustomerGetDto> customers = customerService.getAllCustomer();
+        return new ResponseEntity<>(customers, HttpStatus.OK);
+    }
+
+    //GET BY ID
+    @GetMapping("/getById")
+    public ResponseEntity<CustomerGetDto> getCustomerById(@RequestParam Long id){
+        CustomerGetDto customer = customerService.getCustomerById(id);
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
