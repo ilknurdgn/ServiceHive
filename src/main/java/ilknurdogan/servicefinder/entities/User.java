@@ -10,7 +10,7 @@ import lombok.Data;
 public abstract class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
@@ -27,7 +27,6 @@ public abstract class User {
     private String phoneNumber;
 
     @Column
-    @NotBlank
     private String profileImgUrl;
 
 

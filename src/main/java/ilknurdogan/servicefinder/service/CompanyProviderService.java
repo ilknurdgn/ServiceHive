@@ -2,6 +2,7 @@ package ilknurdogan.servicefinder.service;
 
 import ilknurdogan.servicefinder.dto.requestDto.CompanyProviderCreateDto;
 import ilknurdogan.servicefinder.entities.CompanyProvider;
+import ilknurdogan.servicefinder.exception.UniqueEmailException;
 import ilknurdogan.servicefinder.repository.CompanyProviderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,16 @@ public class CompanyProviderService {
     private final ModelMapper modelMapper;
 
 
-    public Boolean createCompanyProvider(CompanyProviderCreateDto companyProviderCreateDto) {
+    public void createCompanyProvider(CompanyProviderCreateDto companyProviderCreateDto) {
+        if (companyProviderRepository.existsByEmail(companyProviderCreateDto.getEmail())) {
+            throw new UniqueEmailException("Email already in use");
+        }
         CompanyProvider companyProvider = modelMapper.map(companyProviderCreateDto, CompanyProvider.class);
-        companyProviderRepository.save(companyProvider);
-        return true;
+        try{
+            companyProviderRepository.save(companyProvider);
+        }catch(Exception e){
+            throw new RuntimeException(e);
+        }
+
     }
 }

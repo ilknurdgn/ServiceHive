@@ -1,15 +1,11 @@
 package ilknurdogan.servicefinder.controllers;
 
-
 import ilknurdogan.servicefinder.dto.responseDto.ServiceProviderGetDto;
 import ilknurdogan.servicefinder.service.ServiceProviderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,6 +27,13 @@ public class ServiceProviderController {
         ServiceProviderGetDto provider = serviceProviderService.getServiceProviderById(id);
         return new ResponseEntity<>(provider, HttpStatus.OK);
     }
+
+    @DeleteMapping("/deleteById")
+    public ResponseEntity<String> deleteServiceProviderById(@RequestParam Long id){
+        serviceProviderService.deleteServiceProviderById(id);
+        return new ResponseEntity<>("Service provider deleted", HttpStatus.OK);
+    }
+
 
 
 
