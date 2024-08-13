@@ -62,4 +62,18 @@ public class CustomerService {
             throw new InternalServerErrorException("Customer could not be fetched.");
         }
     }
+
+    // DELETE
+    public void deleteCustomerById(Long id) {
+        if(customerRepository.existsById(id)){
+            try {
+                customerRepository.deleteById(id);
+            }catch (Exception e){
+                throw new InternalServerErrorException("Service provider could not be deleted.");
+            }
+        }else{
+            throw new NotFoundException("Customer not found");
+        }
+
+    }
 }
