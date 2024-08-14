@@ -32,4 +32,11 @@ public class ProjectController {
         return new ResponseEntity<>(projectList, HttpStatus.OK);
     }
 
+    // GET BY ID
+    @GetMapping("/getById")
+    public ResponseEntity<ProjectGetDto> getByProjectId (@RequestParam Long id){
+        ProjectGetDto project = projectService.getByProjectId(id);
+        return new ResponseEntity<>(project, HttpStatus.OK);
+    }
+
 }

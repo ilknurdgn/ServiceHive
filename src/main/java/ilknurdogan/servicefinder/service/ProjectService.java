@@ -63,8 +63,20 @@ public class ProjectService {
                     .map(project -> modelMapper.map(project, ProjectGetDto.class))
                     .collect(Collectors.toList());
         }catch (Exception e){
-            System.out.println("Error fetching projects: " + e.getMessage());
             throw new RuntimeException("Projects could not be fetched.", e);
+        }
+    }
+
+    public ProjectGetDto getByProjectId(Long id) {
+        try {
+            Optional<Project> optionalProject = projectRepository.findById(id);
+            if(optionalProject.isEmpty()){
+                throw new NotFoundException("Project not found!");
+            }
+            Project project = optionalProject.get();
+            return modelMapper.map(project, ProjectGetDto.class);
+        }catch (Exception e){
+            throw new InternalServerErrorException("Project could not be fetched.", e);
         }
     }
 }

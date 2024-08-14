@@ -9,6 +9,8 @@ import java.util.List;
 @Setter
 public class ProjectGetDto {
 
+    private Long id;
+
     private String description;
 
     private List<String> projectImgUrl;
