@@ -1,13 +1,16 @@
 package ilknurdogan.servicefinder.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "Project")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Project {
 
     @Id
@@ -23,6 +26,7 @@ public class Project {
     private List<String> projectImgUrl;
 
     @ManyToOne
-    @JoinColumn(name = "service_provider_id")
+    @JoinColumn(name = "ServiceProvider")
     private ServiceProvider serviceProvider;
+
 }
