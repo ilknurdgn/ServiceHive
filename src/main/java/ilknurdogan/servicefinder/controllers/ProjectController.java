@@ -1,17 +1,15 @@
 package ilknurdogan.servicefinder.controllers;
 
 import ilknurdogan.servicefinder.dto.requestDto.ProjectCreateDto;
-import ilknurdogan.servicefinder.dto.responseDto.ServiceProviderGetDto;
+import ilknurdogan.servicefinder.dto.responseDto.ProjectGetDto;
 import ilknurdogan.servicefinder.entities.Project;
-import ilknurdogan.servicefinder.entities.ServiceProvider;
 import ilknurdogan.servicefinder.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/project")
@@ -25,6 +23,13 @@ public class ProjectController {
     public ResponseEntity<Project> createProject(@RequestBody ProjectCreateDto projectCreateDto){
          Project project = projectService.createProject(projectCreateDto);
         return new ResponseEntity<>(project, HttpStatus.CREATED);
+    }
+
+    // GET ALL PROJECT BY SERVICE PROVIDER ID
+    @GetMapping("/getAllProjectByServiceProviderById")
+    public ResponseEntity<List<ProjectGetDto>> getAllProjectByServiceProviderId (@RequestParam Long serviceProviderId){
+        List<ProjectGetDto> projectList = projectService.getAllProjectByServiceProviderId(serviceProviderId);
+        return new ResponseEntity<>(projectList, HttpStatus.OK);
     }
 
 }
