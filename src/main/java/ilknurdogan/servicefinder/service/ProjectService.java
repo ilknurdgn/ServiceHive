@@ -27,24 +27,24 @@ public class ProjectService {
 
     // CREATE
     public Project createProject(ProjectCreateDto projectCreateDto) {
-       try {
+        try {
             Project project = getProject(projectCreateDto);
             projectRepository.save(project);
             return project;
-        }catch (Exception e){
-           throw new InternalServerErrorException("Project could not be created!");
-       }
+        } catch (Exception e) {
+            throw new InternalServerErrorException("Project could not be created!");
+        }
 
     }
 
-    public Project getProject(ProjectCreateDto projectCreateDto){
+    public Project getProject(ProjectCreateDto projectCreateDto) {
         String description = projectCreateDto.getDescription();
         List<String> projectImgUrl = projectCreateDto.getProjectImgUrl();
         Long serviceProviderId = projectCreateDto.getServiceProviderId();
 
         Optional<ServiceProvider> optionalServiceProvider = serviceProviderRepository.findById(serviceProviderId);
 
-        if(optionalServiceProvider.isEmpty()){
+        if (optionalServiceProvider.isEmpty()) {
             throw new NotFoundException("Service provider not found!");
         }
 
@@ -57,26 +57,41 @@ public class ProjectService {
     // GET ALL PROJECT BY SERVICE PROVIDER ID
     public List<ProjectGetDto> getAllProjectByServiceProviderId(Long serviceProviderId) {
         try {
-            List<Project> projects= projectRepository.findByServiceProvider_Id(serviceProviderId);
+            List<Project> projects = projectRepository.findByServiceProvider_Id(serviceProviderId);
 
             return projects.stream()
                     .map(project -> modelMapper.map(project, ProjectGetDto.class))
                     .collect(Collectors.toList());
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("Projects could not be fetched.", e);
         }
     }
 
+    // GET BY PROJECT ID
     public ProjectGetDto getByProjectId(Long id) {
         try {
             Optional<Project> optionalProject = projectRepository.findById(id);
-            if(optionalProject.isEmpty()){
+            if (optionalProject.isEmpty()) {
                 throw new NotFoundException("Project not found!");
             }
             Project project = optionalProject.get();
             return modelMapper.map(project, ProjectGetDto.class);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new InternalServerErrorException("Project could not be fetched.", e);
         }
+    }
+
+    // DELETE
+    public void deleteProject(Long id) {
+        if (projectRepository.existsById(id)) {
+            try {
+                projectRepository.deleteById(id);
+            } catch (Exception e) {
+                throw new InternalServerErrorException("Project could not be deleted!", e);
+            }
+        } else {
+            throw new NotFoundException("Project not found!");
+        }
+
     }
 }

@@ -39,4 +39,11 @@ public class ProjectController {
         return new ResponseEntity<>(project, HttpStatus.OK);
     }
 
+    // DELETE
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteProject (@RequestParam Long id){
+        projectService.deleteProject(id);
+        return new ResponseEntity<>("Project deleted.", HttpStatus.OK);
+    }
+
 }
