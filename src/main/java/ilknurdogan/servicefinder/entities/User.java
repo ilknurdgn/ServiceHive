@@ -24,6 +24,7 @@ public abstract class User {
     private String password;
 
     @Column
+    @NotBlank
     private String phoneNumber;
 
     @Column
