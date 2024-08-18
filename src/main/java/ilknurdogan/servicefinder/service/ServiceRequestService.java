@@ -71,8 +71,13 @@ public class ServiceRequestService {
 
     }
 
+
     // GET ALL BY SERVICE PROVIDER ID
     public List<ServiceRequestGetDto> getAllByServiceProviderId(Long serviceProviderId) {
+        Optional<ServiceProvider> optionalServiceProvider = serviceProviderRepository.findById(serviceProviderId);
+        if(optionalServiceProvider.isEmpty()){
+            throw new NotFoundException("Service provider not found!");
+        }
         List<ServiceRequest> serviceRequestList = serviceRequestRepository.findAllByServiceProvider_Id(serviceProviderId);
 
         return serviceRequestList.stream()
@@ -80,17 +85,40 @@ public class ServiceRequestService {
                 .collect(Collectors.toList());
     }
 
-    public ServiceRequestGetDto convertToDto(ServiceRequest serviceRequest){
-        ServiceRequestGetDto dto = new ServiceRequestGetDto();
-        dto.setId(serviceRequest.getId());
-        dto.setJobDescription(serviceRequest.getJobDescription());
-        dto.setUrgency(serviceRequest.getUrgency());
-        dto.setStatus(serviceRequest.getStatus());
-        dto.setCustomerName(serviceRequest.getCustomer().getFirstName() + " " +serviceRequest.getCustomer().getLastName() );
-        dto.setAddress(serviceRequest.getAddress());
-        dto.setPhoneNumber(serviceRequest.getPhoneNumber());
-        dto.setEmail(serviceRequest.getEmail());
+    // GET ALL BY CUSTOMER ID
+    public List<ServiceRequestGetDto> getAllByCustomerId(Long customerId) {
+        Optional<Customer> optionalCustomer= customerRepository.findById(customerId);
+        if(optionalCustomer.isEmpty()){
+            throw new NotFoundException("Customer not found!");
+        }
+        List<ServiceRequest> serviceRequestList = serviceRequestRepository.findAllByCustomer_Id(customerId);
 
-        return dto;
+        return serviceRequestList.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+
     }
+
+    public ServiceRequestGetDto convertToDto(ServiceRequest serviceRequest){
+        try {
+            ServiceRequestGetDto dto = new ServiceRequestGetDto();
+            dto.setId(serviceRequest.getId());
+            dto.setJobDescription(serviceRequest.getJobDescription());
+            dto.setUrgency(serviceRequest.getUrgency());
+            dto.setStatus(serviceRequest.getStatus());
+            dto.setCustomerName(serviceRequest.getCustomer().getFirstName() + " " +serviceRequest.getCustomer().getLastName() );
+            dto.setAddress(serviceRequest.getAddress());
+            dto.setPhoneNumber(serviceRequest.getPhoneNumber());
+            dto.setEmail(serviceRequest.getEmail());
+
+            return dto;
+        }catch (Exception e){
+            throw new InternalServerErrorException(e.getMessage());
+        }
+
+    }
+
+
+
+
 }
