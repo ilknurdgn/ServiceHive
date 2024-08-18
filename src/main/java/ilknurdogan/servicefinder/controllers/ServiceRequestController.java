@@ -28,18 +28,4 @@ public class ServiceRequestController {
         return new ResponseEntity<>("Service request successfully created.", HttpStatus.CREATED);
     }
 
-    // GET ALL BY SERVICE PROVIDER ID
-    @GetMapping("/getAllByServiceProviderId")
-    public ResponseEntity<List<ServiceRequestGetDto>> getAllByServiceProviderId(@RequestParam Long serviceProviderId){
-        List<ServiceRequestGetDto> serviceRequest = serviceRequestService.getAllByServiceProviderId(serviceProviderId);
-        return new ResponseEntity<>(serviceRequest, HttpStatus.OK);
-    }
-
-    // GET ALL BY CUSTOMER ID
-    @GetMapping("/getAllByCustomerId")
-    public ResponseEntity<List<ServiceRequestGetDto>> getAllByCustomerId(@RequestParam Long customerId){
-        List<ServiceRequestGetDto> serviceRequest = serviceRequestService.getAllByCustomerId(customerId);
-        return new ResponseEntity<>(serviceRequest, HttpStatus.OK);
-    }
-
 }
