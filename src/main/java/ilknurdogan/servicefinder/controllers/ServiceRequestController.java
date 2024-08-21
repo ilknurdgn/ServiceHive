@@ -28,4 +28,11 @@ public class ServiceRequestController {
         return new ResponseEntity<>("Service request successfully created.", HttpStatus.CREATED);
     }
 
+    // GET BY ID
+    @GetMapping("/getById")
+    public ResponseEntity<ServiceRequestGetDto> getById(@RequestParam Long customerId){
+        ServiceRequestGetDto serviceRequest = serviceRequestService.getById(customerId);
+        return new ResponseEntity<>(serviceRequest,HttpStatus.OK);
+    }
+
 }

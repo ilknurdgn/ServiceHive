@@ -54,6 +54,7 @@ public class CustomerService {
     public CustomerGetDto getCustomerById(Long id) {
         try {
             Optional<Customer> optionalCustomer = customerRepository.findById(id);
+
             if(optionalCustomer.isEmpty()){
                 throw new NotFoundException("Customer not found!");
             }

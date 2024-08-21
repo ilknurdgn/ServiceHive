@@ -20,4 +20,8 @@ public class Customer extends User{
     @NotBlank
     private String lastName;
 
+    public String getName(){
+        return firstName + " " + lastName;
+    }
+
 }

@@ -18,4 +18,9 @@ public class CompanyProvider extends ServiceProvider{
     @Column
     @NotBlank
     private String companyNumber;
+
+    @Override
+    public String getName() {
+        return companyName;
+    }
 }

@@ -14,9 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -71,4 +69,43 @@ public class ServiceRequestService {
 
     }
 
+    // GET BY ID
+    public ServiceRequestGetDto getById(Long customerId) {
+        try {
+        Optional<ServiceRequest> optionalServiceRequest = serviceRequestRepository.findById(customerId);
+
+        if(optionalServiceRequest.isEmpty()){
+            throw new NotFoundException("Service request not found!");
+        }
+            ServiceRequest serviceRequest = optionalServiceRequest.get();
+            Long id = serviceRequest.getId();
+            String jobDescription = serviceRequest.getJobDescription();
+            String urgency = serviceRequest.getUrgency();
+            String status = serviceRequest.getStatus();
+            String customerName = serviceRequest.getCustomer().getName();
+            String serviceProviderName = serviceRequest.getServiceProvider().getName();
+            String address = serviceRequest.getAddress();
+            String phoneNumber = serviceRequest.getPhoneNumber();
+            String email = serviceRequest.getEmail();
+
+
+
+            return ServiceRequestGetDto.builder().id(id)
+                    .jobDescription(jobDescription)
+                    .urgency(urgency)
+                    .status(status)
+                    .customerName(customerName)
+                    .serviceProviderName(serviceProviderName)
+                    .address(address)
+                    .phoneNumber(phoneNumber)
+                    .email(email)
+                    .build();
+
+
+
+        }catch (Exception e){
+            throw new InternalServerErrorException(e.getMessage());
+        }
+
+    }
 }

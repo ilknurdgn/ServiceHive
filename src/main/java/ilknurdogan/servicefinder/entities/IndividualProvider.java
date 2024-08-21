@@ -23,5 +23,9 @@ public class IndividualProvider extends ServiceProvider{
     @NotBlank
     private String identityNumber;
 
+    @Override
+    public String getName() {
+        return firstName + " " + lastName;
+    }
 
 }

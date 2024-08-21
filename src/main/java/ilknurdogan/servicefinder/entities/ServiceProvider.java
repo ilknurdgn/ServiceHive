@@ -43,4 +43,5 @@ public abstract class ServiceProvider extends User{
     private List<Project> projectList;
 
 
+    public abstract String getName();
 }
