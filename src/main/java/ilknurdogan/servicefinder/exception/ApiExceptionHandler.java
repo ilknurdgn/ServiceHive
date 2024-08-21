@@ -60,4 +60,14 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>(errors.append(errorMessages).toString(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(value = {BadRequestException.class})
+    public ResponseEntity<Object> handleBadRequestException(BadRequestException e){
+        ApiException apiException = new ApiException(
+                e.getMessage(),
+                HttpStatus.BAD_REQUEST,
+                ZonedDateTime.now()
+        );
+                return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
+    }
+
 }

@@ -5,6 +5,7 @@ import ilknurdogan.servicefinder.dto.responseDto.ServiceRequestGetDto;
 import ilknurdogan.servicefinder.entities.Customer;
 import ilknurdogan.servicefinder.entities.ServiceProvider;
 import ilknurdogan.servicefinder.entities.ServiceRequest;
+import ilknurdogan.servicefinder.exception.BadRequestException;
 import ilknurdogan.servicefinder.exception.InternalServerErrorException;
 import ilknurdogan.servicefinder.exception.NotFoundException;
 import ilknurdogan.servicefinder.repository.CustomerRepository;
@@ -135,6 +136,32 @@ public class ServiceRequestService {
         } catch (Exception e) {
             throw new InternalServerErrorException(e.getMessage());
         }
+
+    }
+
+
+    // CANCEL SERVICE REQUEST
+    public void cancelServiceRequest(Long id) {
+        Optional<ServiceRequest> optionalServiceRequest = serviceRequestRepository.findById(id);
+
+        if (optionalServiceRequest.isEmpty()){
+            throw new NotFoundException("Service request not found!");
+        }
+            ServiceRequest serviceRequest = optionalServiceRequest.get();
+
+            if("cancelled".equals(serviceRequest.getStatus())){
+                throw new BadRequestException("The service request has already been cancelled. Cannot process the cancellation request.");
+            }
+            try {
+
+                serviceRequest.setStatus("cancelled");
+                serviceRequestRepository.save(serviceRequest);
+
+            } catch (Exception e) {
+                throw new InternalServerErrorException("Service request could not be canceled", e);
+            }
+
+
 
     }
 }

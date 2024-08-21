@@ -49,4 +49,12 @@ public class ServiceRequestController {
         return new ResponseEntity<>(serviceRequest, HttpStatus.OK);
     }
 
+
+    // CANCEL SERVICE REQUEST
+    @PutMapping("/cancel")
+    public ResponseEntity<String> cancelServiceRequest(@RequestParam Long id){
+        serviceRequestService.cancelServiceRequest(id);
+        return new ResponseEntity<>("Service request canceled", HttpStatus.OK);
+    }
+
 }
