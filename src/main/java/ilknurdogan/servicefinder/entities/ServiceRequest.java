@@ -5,11 +5,10 @@ import ilknurdogan.servicefinder.domain.ServiceRequestStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
+
+import java.util.List;
 
 @Entity
 @Table(name = "ServiceRequest")
@@ -53,6 +52,9 @@ public class ServiceRequest {
 
     @Email
     private String email;
+
+    @OneToMany(mappedBy = "serviceRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Offer> offerList;
 
 
 }
