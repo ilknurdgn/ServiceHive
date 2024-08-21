@@ -14,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -77,33 +79,45 @@ public class ServiceRequestService {
         if(optionalServiceRequest.isEmpty()){
             throw new NotFoundException("Service request not found!");
         }
-            ServiceRequest serviceRequest = optionalServiceRequest.get();
-            Long id = serviceRequest.getId();
-            String jobDescription = serviceRequest.getJobDescription();
-            String urgency = serviceRequest.getUrgency();
-            String status = serviceRequest.getStatus();
-            String customerName = serviceRequest.getCustomer().getName();
-            String serviceProviderName = serviceRequest.getServiceProvider().getName();
-            String address = serviceRequest.getAddress();
-            String phoneNumber = serviceRequest.getPhoneNumber();
-            String email = serviceRequest.getEmail();
 
-
-
-            return ServiceRequestGetDto.builder().id(id)
-                    .jobDescription(jobDescription)
-                    .urgency(urgency)
-                    .status(status)
-                    .customerName(customerName)
-                    .serviceProviderName(serviceProviderName)
-                    .address(address)
-                    .phoneNumber(phoneNumber)
-                    .email(email)
-                    .build();
-
-
+            return convertToDto(optionalServiceRequest.get());
 
         }catch (Exception e){
+            throw new InternalServerErrorException(e.getMessage());
+        }
+
+    }
+
+
+    // GET ALL BY SERVICE PROVIDER ID
+    public List<ServiceRequestGetDto> getAllByServiceProviderId(Long serviceProviderId) {
+        Optional<ServiceProvider> optionalServiceProvider = serviceProviderRepository.findById(serviceProviderId);
+        if (optionalServiceProvider.isEmpty()) {
+            throw new NotFoundException("Service provider not found!");
+        }
+        List<ServiceRequest> serviceRequestList = serviceRequestRepository.findAllByServiceProvider_Id(serviceProviderId);
+
+        return serviceRequestList.stream()
+                .filter(serviceRequest -> !serviceRequest.getStatus().equals("cancelled"))
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    public ServiceRequestGetDto convertToDto(ServiceRequest serviceRequest) {
+        try {
+            ServiceRequestGetDto dto = new ServiceRequestGetDto();
+            dto.setId(serviceRequest.getId());
+            dto.setJobDescription(serviceRequest.getJobDescription());
+            dto.setUrgency(serviceRequest.getUrgency());
+            dto.setStatus(serviceRequest.getStatus());
+            dto.setCustomerName(serviceRequest.getCustomer().getName());
+            dto.setServiceProviderName(serviceRequest.getServiceProvider().getName());
+            dto.setAddress(serviceRequest.getAddress());
+            dto.setPhoneNumber(serviceRequest.getPhoneNumber());
+            dto.setEmail(serviceRequest.getEmail());
+
+            return dto;
+        } catch (Exception e) {
             throw new InternalServerErrorException(e.getMessage());
         }
 
