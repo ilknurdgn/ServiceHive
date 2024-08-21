@@ -103,6 +103,21 @@ public class ServiceRequestService {
                 .collect(Collectors.toList());
     }
 
+
+    // GET ALL BY CUSTOMER ID
+    public List<ServiceRequestGetDto> getAllByCustomerId(Long customerId) {
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
+        if (optionalCustomer.isEmpty()) {
+            throw new NotFoundException("Customer not found!");
+        }
+        List<ServiceRequest> serviceRequestList = serviceRequestRepository.findAllByCustomer_Id(customerId);
+
+        return serviceRequestList.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+
+    }
+
     public ServiceRequestGetDto convertToDto(ServiceRequest serviceRequest) {
         try {
             ServiceRequestGetDto dto = new ServiceRequestGetDto();

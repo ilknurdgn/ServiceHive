@@ -10,4 +10,6 @@ import java.util.List;
 public interface ServiceRequestRepository extends JpaRepository<ServiceRequest, Long> {
 
     List<ServiceRequest> findAllByServiceProvider_Id(Long serviceProviderId);
+
+    List<ServiceRequest> findAllByCustomer_Id(Long customerId);
 }
