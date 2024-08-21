@@ -57,4 +57,11 @@ public class ServiceRequestController {
         return new ResponseEntity<>("Service request canceled", HttpStatus.OK);
     }
 
+    // DELETE SERVICE REQUEST
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteServiceRequest(@RequestParam Long id){
+        serviceRequestService.deleteServiceRequest(id);
+        return new ResponseEntity<>("Service request successfully deleted.", HttpStatus.OK);
+    }
+
 }

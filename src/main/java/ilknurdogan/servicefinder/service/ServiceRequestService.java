@@ -160,8 +160,21 @@ public class ServiceRequestService {
             } catch (Exception e) {
                 throw new InternalServerErrorException("Service request could not be canceled", e);
             }
+    }
 
 
+    // DELETE
+    public void deleteServiceRequest(Long id) {
+        Optional<ServiceRequest> optionalServiceRequest = serviceRequestRepository.findById(id);
 
+        if(optionalServiceRequest.isEmpty()){
+            throw new NotFoundException("Service request not found!");
+        }
+
+        try {
+           serviceRequestRepository.deleteById(id);
+        }catch (Exception e){
+            throw new InternalServerErrorException("Service request could not be deleted!");
+        }
     }
 }
