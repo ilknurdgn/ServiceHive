@@ -1,5 +1,6 @@
 package ilknurdogan.servicefinder.service;
 
+import ilknurdogan.servicefinder.domain.ServiceRequestStatus;
 import ilknurdogan.servicefinder.dto.requestDto.ServiceRequestCreateDto;
 import ilknurdogan.servicefinder.dto.responseDto.ServiceRequestGetDto;
 import ilknurdogan.servicefinder.entities.Customer;
@@ -62,7 +63,7 @@ public class ServiceRequestService {
                     .jobDescription(jobDescription)
                     .urgency(urgency)
                     .address(address)
-                    .status("pending ")
+                    .status(ServiceRequestStatus.PENDING)
                     .phoneNumber(optionalCustomer.get().getPhoneNumber())
                     .email(optionalCustomer.get().getEmail()).build();
         } catch (Exception e) {
@@ -73,9 +74,9 @@ public class ServiceRequestService {
     }
 
     // GET BY ID
-    public ServiceRequestGetDto getById(Long customerId) {
+    public ServiceRequestGetDto getById(Long id) {
         try {
-        Optional<ServiceRequest> optionalServiceRequest = serviceRequestRepository.findById(customerId);
+        Optional<ServiceRequest> optionalServiceRequest = serviceRequestRepository.findById(id);
 
         if(optionalServiceRequest.isEmpty()){
             throw new NotFoundException("Service request not found!");
@@ -99,7 +100,7 @@ public class ServiceRequestService {
         List<ServiceRequest> serviceRequestList = serviceRequestRepository.findAllByServiceProvider_Id(serviceProviderId);
 
         return serviceRequestList.stream()
-                .filter(serviceRequest -> !serviceRequest.getStatus().equals("cancelled"))
+                .filter(serviceRequest -> !serviceRequest.getStatus().equals(ServiceRequestStatus.CANCELLED))
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
@@ -149,12 +150,12 @@ public class ServiceRequestService {
         }
             ServiceRequest serviceRequest = optionalServiceRequest.get();
 
-            if("cancelled".equals(serviceRequest.getStatus())){
+            if(ServiceRequestStatus.CANCELLED.equals(serviceRequest.getStatus())){
                 throw new BadRequestException("The service request has already been cancelled. Cannot process the cancellation request.");
             }
             try {
 
-                serviceRequest.setStatus("cancelled");
+                serviceRequest.setStatus(ServiceRequestStatus.CANCELLED);
                 serviceRequestRepository.save(serviceRequest);
 
             } catch (Exception e) {

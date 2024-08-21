@@ -30,8 +30,8 @@ public class ServiceRequestController {
 
     // GET BY ID
     @GetMapping("/getById")
-    public ResponseEntity<ServiceRequestGetDto> getById(@RequestParam Long customerId){
-        ServiceRequestGetDto serviceRequest = serviceRequestService.getById(customerId);
+    public ResponseEntity<ServiceRequestGetDto> getById(@RequestParam Long id){
+        ServiceRequestGetDto serviceRequest = serviceRequestService.getById(id);
         return new ResponseEntity<>(serviceRequest,HttpStatus.OK);
     }
 
@@ -63,5 +63,7 @@ public class ServiceRequestController {
         serviceRequestService.deleteServiceRequest(id);
         return new ResponseEntity<>("Service request successfully deleted.", HttpStatus.OK);
     }
+
+
 
 }

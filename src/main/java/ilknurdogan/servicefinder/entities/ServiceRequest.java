@@ -1,6 +1,7 @@
 package ilknurdogan.servicefinder.entities;
 
 
+import ilknurdogan.servicefinder.domain.ServiceRequestStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -45,7 +46,8 @@ public class ServiceRequest {
     private String address;
 
     @Column
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private ServiceRequestStatus status;
 
     private String phoneNumber;
 

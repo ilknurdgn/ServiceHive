@@ -1,6 +1,6 @@
 package ilknurdogan.servicefinder.dto.responseDto;
 
-import lombok.Builder;
+import ilknurdogan.servicefinder.domain.ServiceRequestStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +14,7 @@ public class ServiceRequestGetDto {
 
     private String urgency;
 
-    private String status;
+    private ServiceRequestStatus status;
 
     private String customerName;
 
