@@ -55,4 +55,12 @@ public class OfferController {
         return new ResponseEntity<>(offersGetDto, HttpStatus.OK);
 
     }
+
+    // DELETE
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> delete(@RequestParam Long id){
+        offerService.delete(id);
+        return new ResponseEntity<>("Offer successfully deleted.", HttpStatus.OK);
+    }
+
 }

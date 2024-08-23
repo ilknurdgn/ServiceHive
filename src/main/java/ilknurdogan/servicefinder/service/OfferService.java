@@ -127,6 +127,7 @@ public class OfferService {
 
     }
 
+    // GET OFFER BY SERVICE REQUEST ID
     public List<OfferGetDto> getOffersByServiceRequestId(Long serviceRequestId) {
         Optional<Offer> offerList = offerRepository.findByServiceRequestId(serviceRequestId);
 
@@ -137,6 +138,16 @@ public class OfferService {
         return offerList.stream()
                 .map(offer -> modelMapper.map(offer, OfferGetDto.class))
                 .collect(Collectors.toList());
+
+    }
+
+    // DELETE
+    @Transactional
+    public void delete(Long id) {
+        Offer offer = offerRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Offer not found!"));
+
+        offerRepository.delete(offer);
 
     }
 }
