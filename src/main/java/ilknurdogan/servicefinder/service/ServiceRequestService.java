@@ -132,6 +132,7 @@ public class ServiceRequestService {
             dto.setAddress(serviceRequest.getAddress());
             dto.setPhoneNumber(serviceRequest.getPhoneNumber());
             dto.setEmail(serviceRequest.getEmail());
+            dto.setOffer(serviceRequest.getOfferList());
 
             return dto;
         } catch (Exception e) {

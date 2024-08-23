@@ -3,6 +3,7 @@ package ilknurdogan.servicefinder.service;
 import ilknurdogan.servicefinder.domain.OfferStatus;
 import ilknurdogan.servicefinder.domain.ServiceRequestStatus;
 import ilknurdogan.servicefinder.dto.requestDto.OfferCreateDto;
+import ilknurdogan.servicefinder.dto.responseDto.OfferGetDto;
 import ilknurdogan.servicefinder.entities.Offer;
 import ilknurdogan.servicefinder.entities.ServiceRequest;
 import ilknurdogan.servicefinder.exception.BadRequestException;
@@ -11,6 +12,7 @@ import ilknurdogan.servicefinder.exception.NotFoundException;
 import ilknurdogan.servicefinder.repository.OfferRepository;
 import ilknurdogan.servicefinder.repository.ServiceRequestRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,6 +24,7 @@ public class OfferService {
 
     private final ServiceRequestRepository serviceRequestRepository;
     private final OfferRepository offerRepository;
+    private final ModelMapper modelMapper;
 
     // CREATE OFFER
     public void createOffer(OfferCreateDto offerCreateDto) {
@@ -74,6 +77,37 @@ public class OfferService {
         } catch (Exception e) {
             throw new InternalServerErrorException(e.getMessage());
         }
+
+    }
+
+    // REJECT OFFER
+    public void rejectOffer(Long offerId) {
+        Offer offer = offerRepository.findById(offerId)
+                .orElseThrow(() -> new NotFoundException("Offer not found"));
+
+        if(offer.getOfferStatus().equals(OfferStatus.REJECTED)){
+            throw new BadRequestException("This offer has already been rejected and cannot be rejected again.");
+        }
+
+        try {
+            offer.setOfferStatus(OfferStatus.REJECTED);
+            offerRepository.save(offer);
+
+            ServiceRequest serviceRequest = offer.getServiceRequest();
+            serviceRequest.setStatus(ServiceRequestStatus.REJECTED);
+            serviceRequestRepository.save(serviceRequest);
+        }catch (Exception e){
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+
+    // GET BY ID
+    public OfferGetDto getById(Long offerId) {
+        Offer offer = offerRepository.findById(offerId)
+                .orElseThrow(()-> new NotFoundException("Offer not found!"));
+
+        return modelMapper.map(offer, OfferGetDto.class);
 
     }
 }

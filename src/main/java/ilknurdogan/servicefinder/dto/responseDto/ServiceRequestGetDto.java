@@ -1,8 +1,11 @@
 package ilknurdogan.servicefinder.dto.responseDto;
 
 import ilknurdogan.servicefinder.domain.ServiceRequestStatus;
+import ilknurdogan.servicefinder.entities.Offer;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,4 +28,6 @@ public class ServiceRequestGetDto {
     private String phoneNumber;
 
     private String email;
+
+    private List<Offer> offer;
 }

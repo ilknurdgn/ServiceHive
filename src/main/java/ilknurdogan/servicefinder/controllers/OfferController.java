@@ -1,6 +1,7 @@
 package ilknurdogan.servicefinder.controllers;
 
 import ilknurdogan.servicefinder.dto.requestDto.OfferCreateDto;
+import ilknurdogan.servicefinder.dto.responseDto.OfferGetDto;
 import ilknurdogan.servicefinder.service.OfferService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,5 +30,19 @@ public class OfferController {
     public ResponseEntity<String> approveOffer(@RequestParam Long offerId){
         offerService.approveOffer(offerId);
         return new ResponseEntity<>("Offer approved.", HttpStatus.OK);
+    }
+
+    // REJECT OFFER
+    @PutMapping("/reject")
+    public ResponseEntity<String> rejectOffer(@RequestParam Long offerId){
+        offerService.rejectOffer(offerId);
+        return new ResponseEntity<>("Offer rejected", HttpStatus.OK);
+    }
+
+    // GET BY ID
+    @GetMapping("/getById")
+    public ResponseEntity<OfferGetDto> getById (@RequestParam Long offerId){
+        OfferGetDto offerGetDto = offerService.getById(offerId);
+        return new ResponseEntity<>(offerGetDto, HttpStatus.OK);
     }
 }
