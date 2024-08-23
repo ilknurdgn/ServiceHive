@@ -11,6 +11,7 @@ import ilknurdogan.servicefinder.exception.InternalServerErrorException;
 import ilknurdogan.servicefinder.exception.NotFoundException;
 import ilknurdogan.servicefinder.repository.OfferRepository;
 import ilknurdogan.servicefinder.repository.ServiceRequestRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -27,37 +28,46 @@ public class OfferService {
     private final ModelMapper modelMapper;
 
     // CREATE OFFER
+    @Transactional
     public void createOffer(OfferCreateDto offerCreateDto) {
-        try {
+
             LocalDate offerStartDate = offerCreateDto.getOfferStartDate();
             LocalDate offerEndDate = offerCreateDto.getOfferEndDate();
-            Double price = offerCreateDto.getPrice();
-            String offerDetails = offerCreateDto.getOfferDetails();
-            LocalDate createdDate = LocalDate.now();
+
+            if(offerStartDate.isAfter(offerEndDate)){
+                throw new BadRequestException("Start date cannot be after end date!");
+            }
+
+            if(offerCreateDto.getPrice()< 0){
+                throw new BadRequestException("A negative price cannot be entered.");
+            }
 
             Optional<ServiceRequest> optionalServiceRequest = serviceRequestRepository.findById(offerCreateDto.getServiceRequestId());
             if (optionalServiceRequest.isEmpty()) {
                 throw new NotFoundException("Service request not found!");
             }
 
+            Optional<Offer> offerOptional = offerRepository.findByServiceRequestId(offerCreateDto.getServiceRequestId());
+            if (offerOptional.isPresent()){
+                throw new BadRequestException("This service request already has an offer!");
+            }
+
             Offer offer = Offer.builder()
                     .offerStartDate(offerStartDate)
                     .offerEndDate(offerEndDate)
-                    .price(price)
-                    .offerDetails(offerDetails)
-                    .createdDate(createdDate)
+                    .price(offerCreateDto.getPrice())
+                    .offerDetails(offerCreateDto.getOfferDetails())
+                    .createdDate(LocalDate.now())
                     .offerStatus(OfferStatus.PENDING)
                     .serviceRequest(optionalServiceRequest.get())
                     .build();
 
             offerRepository.save(offer);
-        } catch (Exception e) {
-            throw new InternalServerErrorException(e.getMessage());
-        }
 
     }
 
     // APPROVE OFFER
+    @Transactional
     public void approveOffer(Long offerId) {
         Offer offer = offerRepository.findById(offerId)
                 .orElseThrow(() -> new NotFoundException("Offer not found!"));
@@ -66,7 +76,6 @@ public class OfferService {
             throw new BadRequestException("Only pending offers can be approved!");
         }
 
-        try {
             offer.setOfferStatus(OfferStatus.APPROVED);
             offerRepository.save(offer);
 
@@ -74,13 +83,10 @@ public class OfferService {
             serviceRequest.setStatus(ServiceRequestStatus.APPROVED);
             serviceRequestRepository.save(serviceRequest);
 
-        } catch (Exception e) {
-            throw new InternalServerErrorException(e.getMessage());
-        }
-
     }
 
     // REJECT OFFER
+    @Transactional
     public void rejectOffer(Long offerId) {
         Offer offer = offerRepository.findById(offerId)
                 .orElseThrow(() -> new NotFoundException("Offer not found"));
@@ -89,16 +95,18 @@ public class OfferService {
             throw new BadRequestException("This offer has already been rejected and cannot be rejected again.");
         }
 
-        try {
+        ServiceRequest serviceRequest = offer.getServiceRequest();
+        if (serviceRequest.getStatus().equals(ServiceRequestStatus.REJECTED)) {
+            throw new BadRequestException("This service request has already been rejected.");
+        }
+
             offer.setOfferStatus(OfferStatus.REJECTED);
             offerRepository.save(offer);
 
-            ServiceRequest serviceRequest = offer.getServiceRequest();
+
             serviceRequest.setStatus(ServiceRequestStatus.REJECTED);
             serviceRequestRepository.save(serviceRequest);
-        }catch (Exception e){
-            throw new InternalServerErrorException(e.getMessage());
-        }
+
     }
 
 
@@ -107,7 +115,12 @@ public class OfferService {
         Offer offer = offerRepository.findById(offerId)
                 .orElseThrow(()-> new NotFoundException("Offer not found!"));
 
-        return modelMapper.map(offer, OfferGetDto.class);
+        try {
+            return modelMapper.map(offer, OfferGetDto.class);
+        }catch (Exception e){
+            throw new InternalServerErrorException("Failed to retrieve according to ID", e);
+        }
+
 
     }
 }
