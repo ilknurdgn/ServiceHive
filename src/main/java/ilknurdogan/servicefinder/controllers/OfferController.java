@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/offer")
 @RequiredArgsConstructor
@@ -44,5 +46,13 @@ public class OfferController {
     public ResponseEntity<OfferGetDto> getById (@RequestParam Long offerId){
         OfferGetDto offerGetDto = offerService.getById(offerId);
         return new ResponseEntity<>(offerGetDto, HttpStatus.OK);
+    }
+
+    // GET OFFER BY SERVICE REQUEST ID
+    @GetMapping("/getOffersByServiceRequestId")
+    public ResponseEntity<List<OfferGetDto>> getOffersByServiceRequestId (@RequestParam Long serviceRequestId){
+        List<OfferGetDto> offersGetDto = offerService.getOffersByServiceRequestId(serviceRequestId);
+        return new ResponseEntity<>(offersGetDto, HttpStatus.OK);
+
     }
 }
