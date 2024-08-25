@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Comment {
 
     @Id
@@ -28,6 +30,10 @@ public class Comment {
     @NotNull
     private LocalDate createdDate;
 
+    @Column
+    @NotNull
+    private int score;
+
     @ManyToOne
     @JoinColumn(name = "customer", nullable = false)
     private Customer customer;
@@ -35,5 +41,9 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "serviceProvider", nullable = false)
     private ServiceProvider serviceProvider;
+
+    @OneToOne
+    @JoinColumn(name = "serviceRequest", nullable = false)
+    private ServiceRequest serviceRequest;
 
 }

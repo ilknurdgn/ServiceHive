@@ -33,7 +33,10 @@ public abstract class ServiceProvider extends User{
     private String district;
 
     @Column
-    private int averageScore = 0;
+    private double averageScore = 0;
+
+    @Column
+    private int totalComments = 0;
 
     @Column
     @NotBlank
@@ -47,4 +50,10 @@ public abstract class ServiceProvider extends User{
 
 
     public abstract String getName();
+
+    public void updateAverageScore(int newScore) {
+        double totalScore = (averageScore * totalComments) + newScore;
+        totalComments++;
+        this.averageScore = totalScore / totalComments;
+    }
 }
