@@ -42,6 +42,9 @@ public abstract class ServiceProvider extends User{
     @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Project> projectList;
 
+    @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment> commentList;
+
 
     public abstract String getName();
 }
