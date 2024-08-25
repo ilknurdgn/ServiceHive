@@ -2,6 +2,7 @@ package ilknurdogan.servicefinder.service;
 
 import ilknurdogan.servicefinder.domain.ServiceRequestStatus;
 import ilknurdogan.servicefinder.dto.requestDto.CommentCreateDto;
+import ilknurdogan.servicefinder.dto.responseDto.CommentGetDto;
 import ilknurdogan.servicefinder.entities.Comment;
 import ilknurdogan.servicefinder.entities.Customer;
 import ilknurdogan.servicefinder.entities.ServiceProvider;
@@ -16,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ServiceRequestRepository serviceRequestRepository;
 
+    // CREATE
     @Transactional
     public void createComment(CommentCreateDto commentCreateDto) {
         ServiceRequest serviceRequest =serviceRequestRepository.findById(commentCreateDto.getServiceRequestId())
@@ -38,6 +42,11 @@ public class CommentService {
             ServiceProvider serviceProvider = serviceRequest.getServiceProvider();
             Customer customer = serviceRequest.getCustomer();
 
+
+        if (customer == null) {
+            throw new NotFoundException("Customer not found for this service request!");
+        }
+
             Comment comment = Comment.builder()
                     .text(commentCreateDto.getText())
                     .score(commentCreateDto.getScore())
@@ -50,6 +59,30 @@ public class CommentService {
 
             serviceProvider.updateAverageScore(commentCreateDto.getScore());
             serviceProviderRepository.save(serviceProvider);
+
+    }
+
+    // GET BY SERVICE PROVIDER ID
+    public List<CommentGetDto> getByServiceProviderId(Long serviceProviderId) {
+        List<Comment> commentList = commentRepository.findAllByServiceProvider_Id(serviceProviderId);
+
+        return  commentList.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+
+    public CommentGetDto convertToDto(Comment comment){
+        CommentGetDto dto = new CommentGetDto();
+
+        dto.setId(comment.getId());
+        dto.setText(comment.getText());
+        dto.setScore(comment.getScore());
+        dto.setCustomerName(comment.getCustomer().getName());
+        dto.setCustomerProfileImgUrl(comment.getCustomer().getProfileImgUrl());
+        dto.setCreatedDate(comment.getCreatedDate());
+
+        return dto;
 
     }
 }
