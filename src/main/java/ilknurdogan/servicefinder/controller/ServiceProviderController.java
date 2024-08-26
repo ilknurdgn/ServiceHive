@@ -28,9 +28,12 @@ public class ServiceProviderController {
         return new ResponseEntity<>(provider, HttpStatus.OK);
     }
 
-    @GetMapping("/getFilterByCategory")
-    public ResponseEntity<List<ServiceProviderGetDto>> getServiceProviderFilterByCategory(@RequestParam String category){
-        List<ServiceProviderGetDto> filteredProviders = serviceProviderService.getServiceProviderFilterById(category);
+    @GetMapping("/filter")
+    public ResponseEntity<List<ServiceProviderGetDto>> getServiceProviderFilter(
+            @RequestParam(required = true) String category,
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false)  String district){
+        List<ServiceProviderGetDto> filteredProviders = serviceProviderService.getServiceProviderFilter(category, city, district);
         return ResponseEntity.ok(filteredProviders);
     }
 

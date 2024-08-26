@@ -45,10 +45,22 @@ public class ServiceProviderService {
 
     }
 
-    //GET FILTER BY ID
-    public List<ServiceProviderGetDto> getServiceProviderFilterById(String category){
+    //GET FILTER BY CATEGORY, CITY, AND DISTRICT
+    public List<ServiceProviderGetDto> getServiceProviderFilter(String category, String city, String district){
         try{
-            List<ServiceProvider> filteredServiceProviders = serviceProviderRepository.getByCategory(category);
+
+            List<ServiceProvider> filteredServiceProviders;
+
+            if (category != null && city != null && district != null) {
+                filteredServiceProviders = serviceProviderRepository.findByCategoryAndCityAndDistrict(category, city, district);
+            } else if (category != null && city != null) {
+                filteredServiceProviders = serviceProviderRepository.findByCategoryAndCity(category, city);
+            } else if (category != null) {
+                filteredServiceProviders = serviceProviderRepository.findByCategory(category);
+            } else {
+                filteredServiceProviders = serviceProviderRepository.findAll();
+            }
+
             return filteredServiceProviders.stream()
                     .map(provider -> modelMapper.map(provider, ServiceProviderGetDto.class))
                     .collect(Collectors.toList());

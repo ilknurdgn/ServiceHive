@@ -16,5 +16,10 @@ public interface ServiceProviderRepository extends JpaRepository<ServiceProvider
     @Override
     void deleteById(Long id);
 
-    List<ServiceProvider> getByCategory(final String category);
+    List<ServiceProvider> findByCategoryAndCityAndDistrict(String category, String city, String district);
+
+    List<ServiceProvider> findByCategoryAndCity(String category, String city);
+
+    List<ServiceProvider> findByCategory(String category);
+
 }
