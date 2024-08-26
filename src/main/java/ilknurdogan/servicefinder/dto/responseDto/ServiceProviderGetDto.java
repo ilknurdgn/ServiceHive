@@ -24,6 +24,8 @@ public class ServiceProviderGetDto {
 
     private double averageScore;
 
+    private int totalComments;
+
     private String category;
 
     private String firstName;

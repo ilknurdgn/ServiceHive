@@ -111,4 +111,18 @@ public class CommentService {
 
     }
 
+    // DELETE
+    @Transactional
+    public void deleteComment(Long id) {
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Comment not found!"));
+
+        Long serviceProviderId = comment.getServiceProvider().getId();
+        int scoreToRemove = comment.getScore();
+
+        commentRepository.delete(comment);
+
+        // Update service provider's average score after comment deletion
+        serviceProviderService.updateAverageScoreAfterCommentDelete(serviceProviderId, scoreToRemove);
+    }
 }

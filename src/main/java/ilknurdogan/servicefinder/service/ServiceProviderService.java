@@ -87,4 +87,25 @@ public class ServiceProviderService {
 
         serviceProviderRepository.save(serviceProvider);
     }
+
+    // UPDATE AVERAGE SCORE AFTER COMMENT DELETE
+    @Transactional
+    public void updateAverageScoreAfterCommentDelete(Long serviceProviderId, int scoreToRemove) {
+        ServiceProvider serviceProvider = serviceProviderRepository.findById(serviceProviderId)
+                .orElseThrow(() -> new NotFoundException("ServiceProvider not found"));
+
+        double totalComments = serviceProvider.getTotalComments();
+
+        double totalScore = serviceProvider.getAverageScore() * totalComments;
+        totalScore = totalScore - scoreToRemove;
+
+        totalComments--;
+
+        double newAverageScore = totalScore / totalComments;
+
+        serviceProvider.setTotalComments(totalComments);
+        serviceProvider.setAverageScore(newAverageScore);
+
+        serviceProviderRepository.save(serviceProvider);
+    }
 }
