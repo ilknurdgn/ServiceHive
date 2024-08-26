@@ -1,4 +1,4 @@
-package ilknurdogan.servicefinder.controllers;
+package ilknurdogan.servicefinder.controller;
 
 import ilknurdogan.servicefinder.dto.requestDto.CommentCreateDto;
 import ilknurdogan.servicefinder.dto.requestDto.CommentUpdateDto;

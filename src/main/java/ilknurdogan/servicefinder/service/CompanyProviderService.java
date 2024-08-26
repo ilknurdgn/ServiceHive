@@ -1,7 +1,7 @@
 package ilknurdogan.servicefinder.service;
 
 import ilknurdogan.servicefinder.dto.requestDto.CompanyProviderCreateDto;
-import ilknurdogan.servicefinder.entities.CompanyProvider;
+import ilknurdogan.servicefinder.entity.CompanyProvider;
 import ilknurdogan.servicefinder.exception.UniqueEmailException;
 import ilknurdogan.servicefinder.repository.CompanyProviderRepository;
 import lombok.RequiredArgsConstructor;

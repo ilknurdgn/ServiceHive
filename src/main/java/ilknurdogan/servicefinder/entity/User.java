@@ -1,4 +1,4 @@
-package ilknurdogan.servicefinder.entities;
+package ilknurdogan.servicefinder.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

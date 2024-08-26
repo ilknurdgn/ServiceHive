@@ -4,8 +4,8 @@ import ilknurdogan.servicefinder.domain.OfferStatus;
 import ilknurdogan.servicefinder.domain.ServiceRequestStatus;
 import ilknurdogan.servicefinder.dto.requestDto.OfferCreateDto;
 import ilknurdogan.servicefinder.dto.responseDto.OfferGetDto;
-import ilknurdogan.servicefinder.entities.Offer;
-import ilknurdogan.servicefinder.entities.ServiceRequest;
+import ilknurdogan.servicefinder.entity.Offer;
+import ilknurdogan.servicefinder.entity.ServiceRequest;
 import ilknurdogan.servicefinder.exception.BadRequestException;
 import ilknurdogan.servicefinder.exception.InternalServerErrorException;
 import ilknurdogan.servicefinder.exception.NotFoundException;
@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.RelationServiceNotRegisteredException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;

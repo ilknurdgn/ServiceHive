@@ -1,7 +1,6 @@
 package ilknurdogan.servicefinder.repository;
 
-import ilknurdogan.servicefinder.dto.responseDto.ServiceProviderGetDto;
-import ilknurdogan.servicefinder.entities.ServiceProvider;
+import ilknurdogan.servicefinder.entity.ServiceProvider;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

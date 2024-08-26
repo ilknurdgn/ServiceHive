@@ -1,7 +1,7 @@
 package ilknurdogan.servicefinder.dto.responseDto;
 
 import ilknurdogan.servicefinder.domain.ServiceRequestStatus;
-import ilknurdogan.servicefinder.entities.Offer;
+import ilknurdogan.servicefinder.entity.Offer;
 import lombok.Getter;
 import lombok.Setter;
 

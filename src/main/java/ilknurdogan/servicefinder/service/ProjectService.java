@@ -2,8 +2,8 @@ package ilknurdogan.servicefinder.service;
 
 import ilknurdogan.servicefinder.dto.requestDto.ProjectCreateDto;
 import ilknurdogan.servicefinder.dto.responseDto.ProjectGetDto;
-import ilknurdogan.servicefinder.entities.Project;
-import ilknurdogan.servicefinder.entities.ServiceProvider;
+import ilknurdogan.servicefinder.entity.Project;
+import ilknurdogan.servicefinder.entity.ServiceProvider;
 import ilknurdogan.servicefinder.exception.InternalServerErrorException;
 import ilknurdogan.servicefinder.exception.NotFoundException;
 import ilknurdogan.servicefinder.repository.ProjectRepository;

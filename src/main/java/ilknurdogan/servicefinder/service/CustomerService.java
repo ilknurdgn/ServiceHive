@@ -2,7 +2,7 @@ package ilknurdogan.servicefinder.service;
 
 import ilknurdogan.servicefinder.dto.requestDto.CustomerCreateDto;
 import ilknurdogan.servicefinder.dto.responseDto.CustomerGetDto;
-import ilknurdogan.servicefinder.entities.Customer;
+import ilknurdogan.servicefinder.entity.Customer;
 import ilknurdogan.servicefinder.exception.InternalServerErrorException;
 import ilknurdogan.servicefinder.exception.NotFoundException;
 import ilknurdogan.servicefinder.exception.UniqueEmailException;

@@ -1,6 +1,6 @@
 package ilknurdogan.servicefinder.repository;
 
-import ilknurdogan.servicefinder.entities.ServiceRequest;
+import ilknurdogan.servicefinder.entity.ServiceRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

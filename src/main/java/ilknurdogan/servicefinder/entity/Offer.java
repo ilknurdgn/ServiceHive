@@ -1,4 +1,4 @@
-package ilknurdogan.servicefinder.entities;
+package ilknurdogan.servicefinder.entity;
 
 import ilknurdogan.servicefinder.domain.OfferStatus;
 import jakarta.persistence.*;

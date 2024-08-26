@@ -1,8 +1,8 @@
-package ilknurdogan.servicefinder.controllers;
+package ilknurdogan.servicefinder.controller;
 
 import ilknurdogan.servicefinder.dto.requestDto.ProjectCreateDto;
 import ilknurdogan.servicefinder.dto.responseDto.ProjectGetDto;
-import ilknurdogan.servicefinder.entities.Project;
+import ilknurdogan.servicefinder.entity.Project;
 import ilknurdogan.servicefinder.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

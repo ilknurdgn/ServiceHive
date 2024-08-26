@@ -1,8 +1,7 @@
-package ilknurdogan.servicefinder.controllers;
+package ilknurdogan.servicefinder.controller;
 
 import ilknurdogan.servicefinder.dto.requestDto.ServiceRequestCreateDto;
 import ilknurdogan.servicefinder.dto.responseDto.ServiceRequestGetDto;
-import ilknurdogan.servicefinder.entities.ServiceRequest;
 import ilknurdogan.servicefinder.service.ServiceRequestService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

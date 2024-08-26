@@ -1,4 +1,4 @@
-package ilknurdogan.servicefinder.controllers;
+package ilknurdogan.servicefinder.controller;
 
 import ilknurdogan.servicefinder.dto.responseDto.ServiceProviderGetDto;
 import ilknurdogan.servicefinder.service.ServiceProviderService;

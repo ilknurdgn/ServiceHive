@@ -2,7 +2,7 @@ package ilknurdogan.servicefinder.service;
 
 
 import ilknurdogan.servicefinder.dto.responseDto.ServiceProviderGetDto;
-import ilknurdogan.servicefinder.entities.ServiceProvider;
+import ilknurdogan.servicefinder.entity.ServiceProvider;
 import ilknurdogan.servicefinder.exception.InternalServerErrorException;
 import ilknurdogan.servicefinder.exception.NotFoundException;
 import ilknurdogan.servicefinder.repository.ServiceProviderRepository;
