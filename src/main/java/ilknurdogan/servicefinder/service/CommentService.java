@@ -2,6 +2,7 @@ package ilknurdogan.servicefinder.service;
 
 import ilknurdogan.servicefinder.domain.ServiceRequestStatus;
 import ilknurdogan.servicefinder.dto.requestDto.CommentCreateDto;
+import ilknurdogan.servicefinder.dto.requestDto.CommentUpdateDto;
 import ilknurdogan.servicefinder.dto.responseDto.CommentGetDto;
 import ilknurdogan.servicefinder.entities.Comment;
 import ilknurdogan.servicefinder.entities.Customer;
@@ -27,6 +28,7 @@ public class CommentService {
     private final ServiceProviderRepository serviceProviderRepository;
     private final CommentRepository commentRepository;
     private final ServiceRequestRepository serviceRequestRepository;
+    private final ServiceProviderService serviceProviderService;
 
     // CREATE
     @Transactional
@@ -85,4 +87,28 @@ public class CommentService {
         return dto;
 
     }
+
+
+    // UPDATE COMMENT
+    @Transactional
+    public void updateComment(Long id, CommentUpdateDto commentUpdateDto) {
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Comment not found!"));
+
+        double oldScore = comment.getScore();
+
+        comment.setScore(commentUpdateDto.getScore());
+        comment.setText(commentUpdateDto.getText());
+
+        Comment updatedComment = commentRepository.save(comment);
+
+        serviceProviderService.updateAverageScoreAfterCommentUpdate(
+                comment.getServiceProvider().getId(),
+                oldScore,
+                updatedComment.getScore()
+        );
+
+
+    }
+
 }

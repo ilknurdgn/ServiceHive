@@ -6,6 +6,7 @@ import ilknurdogan.servicefinder.entities.ServiceProvider;
 import ilknurdogan.servicefinder.exception.InternalServerErrorException;
 import ilknurdogan.servicefinder.exception.NotFoundException;
 import ilknurdogan.servicefinder.repository.ServiceProviderRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -71,4 +72,19 @@ public class ServiceProviderService {
         }
     }
 
+
+    // UPDATE AVERAGE SCORE AFTER COMMENT UPDATE
+    @Transactional
+    public void updateAverageScoreAfterCommentUpdate(Long id, double oldScore, int score) {
+        ServiceProvider serviceProvider = serviceProviderRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("ServiceProvider not found"));
+
+        double totalScore = serviceProvider.getAverageScore() * serviceProvider.getTotalComments();
+        totalScore = totalScore - oldScore + score;
+
+        double newAverageScore = totalScore / serviceProvider.getTotalComments();
+        serviceProvider.setAverageScore(newAverageScore);
+
+        serviceProviderRepository.save(serviceProvider);
+    }
 }

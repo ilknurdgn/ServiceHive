@@ -22,7 +22,7 @@ public class ServiceProviderGetDto {
 
     private String district;
 
-    private int averageScore;
+    private double averageScore;
 
     private String category;
 

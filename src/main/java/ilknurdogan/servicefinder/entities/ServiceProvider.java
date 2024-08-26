@@ -36,7 +36,7 @@ public abstract class ServiceProvider extends User{
     private double averageScore = 0;
 
     @Column
-    private int totalComments = 0;
+    private double totalComments = 0;
 
     @Column
     @NotBlank

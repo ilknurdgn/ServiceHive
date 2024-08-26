@@ -1,6 +1,7 @@
 package ilknurdogan.servicefinder.controllers;
 
 import ilknurdogan.servicefinder.dto.requestDto.CommentCreateDto;
+import ilknurdogan.servicefinder.dto.requestDto.CommentUpdateDto;
 import ilknurdogan.servicefinder.dto.responseDto.CommentGetDto;
 import ilknurdogan.servicefinder.service.CommentService;
 import jakarta.validation.Valid;
@@ -34,5 +35,12 @@ public class CommentController {
     public ResponseEntity<List<CommentGetDto>> getByServiceProviderId(@RequestParam Long serviceProviderId){
         List<CommentGetDto> commentList = commentService.getByServiceProviderId(serviceProviderId);
         return new ResponseEntity<>(commentList, HttpStatus.OK);
+    }
+
+    // UPDATE
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateComment(@PathVariable Long id, @RequestBody CommentUpdateDto commentUpdateDto){
+        commentService.updateComment(id,commentUpdateDto);
+        return new ResponseEntity<>("Comment successfully updated", HttpStatus.OK);
     }
 }
