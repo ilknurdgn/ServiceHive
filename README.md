@@ -19,3 +19,7 @@ This project is an application where customers can filter and find service provi
 
 ## 📊 UML Diagram for Entities
 ![uml2](https://github.com/user-attachments/assets/747c94e2-3b36-4126-bd77-021222b4cdc8)
+
+## 📜 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
