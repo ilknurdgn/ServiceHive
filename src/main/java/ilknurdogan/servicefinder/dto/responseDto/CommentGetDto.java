@@ -15,7 +15,7 @@ public class CommentGetDto {
 
     private String text;
 
-    private int score;
+    private Integer score;
 
     private LocalDate createdDate;
 

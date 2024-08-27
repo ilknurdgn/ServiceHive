@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findAllByServiceProvider_Id(Long id);
+
+    boolean existsByServiceRequestId(Long id);
 }

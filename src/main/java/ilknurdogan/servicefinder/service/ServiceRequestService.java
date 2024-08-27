@@ -36,7 +36,7 @@ public class ServiceRequestService {
         try {
             serviceRequestRepository.save(serviceRequest);
         } catch (Exception e) {
-            throw new InternalServerErrorException("Service request could not be created!", e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 

@@ -26,11 +26,10 @@ public class ProjectService {
 
 
     // CREATE
-    public Project createProject(ProjectCreateDto projectCreateDto) {
+    public void createProject(ProjectCreateDto projectCreateDto) {
         try {
             Project project = getProject(projectCreateDto);
             projectRepository.save(project);
-            return project;
         } catch (Exception e) {
             throw new InternalServerErrorException("Project could not be created!");
         }

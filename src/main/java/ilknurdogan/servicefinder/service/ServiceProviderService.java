@@ -1,6 +1,7 @@
 package ilknurdogan.servicefinder.service;
 
 
+import ilknurdogan.servicefinder.domain.CategoryType;
 import ilknurdogan.servicefinder.dto.responseDto.ServiceProviderGetDto;
 import ilknurdogan.servicefinder.entity.ServiceProvider;
 import ilknurdogan.servicefinder.exception.InternalServerErrorException;
@@ -46,7 +47,7 @@ public class ServiceProviderService {
     }
 
     //GET FILTER BY CATEGORY, CITY, AND DISTRICT
-    public List<ServiceProviderGetDto> getServiceProviderFilter(String category, String city, String district){
+    public List<ServiceProviderGetDto> getServiceProviderFilter(CategoryType category, String city, String district){
         try{
 
             List<ServiceProvider> filteredServiceProviders;
@@ -87,7 +88,7 @@ public class ServiceProviderService {
 
     // UPDATE AVERAGE SCORE AFTER COMMENT UPDATE
     @Transactional
-    public void updateAverageScoreAfterCommentUpdate(Long id, double oldScore, int score) {
+    public void updateAverageScoreAfterCommentUpdate(Long id, double oldScore, Integer score) {
         ServiceProvider serviceProvider = serviceProviderRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("ServiceProvider not found"));
 
@@ -102,11 +103,11 @@ public class ServiceProviderService {
 
     // UPDATE AVERAGE SCORE AFTER COMMENT DELETE
     @Transactional
-    public void updateAverageScoreAfterCommentDelete(Long serviceProviderId, int scoreToRemove) {
+    public void updateAverageScoreAfterCommentDelete(Long serviceProviderId, Integer scoreToRemove) {
         ServiceProvider serviceProvider = serviceProviderRepository.findById(serviceProviderId)
                 .orElseThrow(() -> new NotFoundException("ServiceProvider not found"));
 
-        double totalComments = serviceProvider.getTotalComments();
+        Long totalComments = serviceProvider.getTotalComments();
 
         double totalScore = serviceProvider.getAverageScore() * totalComments;
         totalScore = totalScore - scoreToRemove;

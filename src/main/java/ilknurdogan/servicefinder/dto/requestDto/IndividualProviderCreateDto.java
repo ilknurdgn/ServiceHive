@@ -1,7 +1,9 @@
 package ilknurdogan.servicefinder.dto.requestDto;
 
+import ilknurdogan.servicefinder.domain.ServiceProviderType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,8 +25,8 @@ public class IndividualProviderCreateDto {
 
     private String profileImgUrl;
 
-    @NotBlank(message = "Service type is mandatory")
-    private String serviceType;
+    @NotNull(message = "Service type is mandatory")
+    private ServiceProviderType serviceProviderType;
 
     @NotBlank(message = "About is mandatory")
     private String about;
@@ -35,9 +37,7 @@ public class IndividualProviderCreateDto {
     @NotBlank(message = "District is mandatory")
     private String district;
 
-    private int averageScore = 0;
-
-    @NotBlank(message = "District is mandatory")
+    @NotNull(message = "District is mandatory")
     private String category;
 
     @NotBlank(message = "First name is mandatory")

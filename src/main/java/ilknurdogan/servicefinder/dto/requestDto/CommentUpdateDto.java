@@ -9,6 +9,6 @@ public class CommentUpdateDto {
 
     private String text;
 
-    private int score;
+    private Integer score;
 
 }

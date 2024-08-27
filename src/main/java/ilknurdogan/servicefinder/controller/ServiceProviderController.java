@@ -1,5 +1,6 @@
 package ilknurdogan.servicefinder.controller;
 
+import ilknurdogan.servicefinder.domain.CategoryType;
 import ilknurdogan.servicefinder.dto.responseDto.ServiceProviderGetDto;
 import ilknurdogan.servicefinder.service.ServiceProviderService;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class ServiceProviderController {
 
     @GetMapping("/filter")
     public ResponseEntity<List<ServiceProviderGetDto>> getServiceProviderFilter(
-            @RequestParam(required = true) String category,
+            @RequestParam(required = true) CategoryType category,
             @RequestParam(required = false) String city,
             @RequestParam(required = false)  String district){
         List<ServiceProviderGetDto> filteredProviders = serviceProviderService.getServiceProviderFilter(category, city, district);

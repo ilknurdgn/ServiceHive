@@ -34,7 +34,7 @@ public class Offer {
     @NotNull
     private Double price;
 
-    @Column
+    @Column(length = 2000)
     private String offerDetails;
 
     @Column

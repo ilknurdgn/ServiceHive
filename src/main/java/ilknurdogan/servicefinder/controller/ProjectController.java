@@ -20,9 +20,9 @@ public class ProjectController {
 
     // CREATE
     @PostMapping("/create")
-    public ResponseEntity<Project> createProject(@RequestBody ProjectCreateDto projectCreateDto){
-         Project project = projectService.createProject(projectCreateDto);
-        return new ResponseEntity<>(project, HttpStatus.CREATED);
+    public ResponseEntity<String> createProject(@RequestBody ProjectCreateDto projectCreateDto){
+         projectService.createProject(projectCreateDto);
+        return new ResponseEntity<>("Project successfully created", HttpStatus.CREATED);
     }
 
     // GET ALL PROJECT BY SERVICE PROVIDER ID

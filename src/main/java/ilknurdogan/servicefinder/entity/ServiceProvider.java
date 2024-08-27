@@ -1,8 +1,11 @@
 package ilknurdogan.servicefinder.entity;
 
 
+import ilknurdogan.servicefinder.domain.CategoryType;
+import ilknurdogan.servicefinder.domain.ServiceProviderType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,8 +20,9 @@ import java.util.List;
 public abstract class ServiceProvider extends User{
 
     @Column
-    @NotBlank
-    private String serviceType;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private ServiceProviderType serviceProviderType;
 
     @Column
     @NotBlank
@@ -36,11 +40,12 @@ public abstract class ServiceProvider extends User{
     private double averageScore = 0;
 
     @Column
-    private double totalComments = 0;
+    private Long totalComments = 0L;
 
     @Column
-    @NotBlank
-    private String category;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private CategoryType category;
 
     @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Project> projectList;

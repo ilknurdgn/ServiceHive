@@ -36,6 +36,11 @@ public class CommentService {
         ServiceRequest serviceRequest =serviceRequestRepository.findById(commentCreateDto.getServiceRequestId())
                 .orElseThrow(()-> new NotFoundException("Service request not found!"));
 
+        boolean commentExists = commentRepository.existsByServiceRequestId(serviceRequest.getId());
+        if (commentExists) {
+            throw new BadRequestException("Only one comment can be made on a service request.");
+        }
+
         if(serviceRequest.getStatus() != ServiceRequestStatus.APPROVED){
             throw new BadRequestException("The service request must be approved in order to comment.");
         }
@@ -97,16 +102,23 @@ public class CommentService {
 
         double oldScore = comment.getScore();
 
-        comment.setScore(commentUpdateDto.getScore());
-        comment.setText(commentUpdateDto.getText());
+        if (commentUpdateDto.getScore() != null) {
+            comment.setScore(commentUpdateDto.getScore());
+        }
+
+        if (commentUpdateDto.getText() != null) {
+            comment.setText(commentUpdateDto.getText());
+        }
 
         Comment updatedComment = commentRepository.save(comment);
 
-        serviceProviderService.updateAverageScoreAfterCommentUpdate(
-                comment.getServiceProvider().getId(),
-                oldScore,
-                updatedComment.getScore()
-        );
+        if (commentUpdateDto.getScore() != null) {
+            serviceProviderService.updateAverageScoreAfterCommentUpdate(
+                    comment.getServiceProvider().getId(),
+                    oldScore,
+                    updatedComment.getScore()
+            );
+        }
 
 
     }
@@ -118,7 +130,7 @@ public class CommentService {
                 .orElseThrow(()-> new NotFoundException("Comment not found!"));
 
         Long serviceProviderId = comment.getServiceProvider().getId();
-        int scoreToRemove = comment.getScore();
+        Integer scoreToRemove = comment.getScore();
 
         commentRepository.delete(comment);
 

@@ -1,5 +1,7 @@
 package ilknurdogan.servicefinder.dto.responseDto;
 
+import ilknurdogan.servicefinder.domain.CategoryType;
+import ilknurdogan.servicefinder.domain.ServiceProviderType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +16,7 @@ public class ServiceProviderGetDto {
 
     private String profileImgUrl;
 
-    private String serviceType;
+    private ServiceProviderType serviceProviderType;
 
     private String about;
 
@@ -24,9 +26,9 @@ public class ServiceProviderGetDto {
 
     private double averageScore;
 
-    private int totalComments;
+    private Long totalComments;
 
-    private String category;
+    private CategoryType category;
 
     private String firstName;
 

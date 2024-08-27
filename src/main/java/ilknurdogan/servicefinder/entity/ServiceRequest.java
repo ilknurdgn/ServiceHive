@@ -32,7 +32,7 @@ public class ServiceRequest {
     @JoinColumn(name = "serviceProvider")
     private ServiceProvider serviceProvider;
 
-    @Column
+    @Column(length = 2000)
     @NotBlank
     private String jobDescription;
 

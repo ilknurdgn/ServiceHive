@@ -22,7 +22,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
+    @Column(length = 1000)
     @NotBlank
     private String text;
 
@@ -32,7 +32,7 @@ public class Comment {
 
     @Column
     @NotNull
-    private int score;
+    private Integer score;
 
     @ManyToOne
     @JoinColumn(name = "customer", nullable = false)
